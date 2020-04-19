@@ -139,7 +139,7 @@ def parse_expression(input, show_steps=False):
         # If a ( is encountered first while string is empty, don't add a space to the left
         elif contains_operator(char):
             parsed_expression=parsed_expression+" "+char+" "
-        break
+            break
     
     # Get rid of leading/trailing white spaces to avoid improper separations with .split()
     parsed_expression = parsed_expression.strip()
