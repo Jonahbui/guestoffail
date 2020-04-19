@@ -1,0 +1,4 @@
+/.env
+/bot.py
+/client.py
+/__pycache__
