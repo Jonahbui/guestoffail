@@ -128,19 +128,22 @@ def parse_expression(input, show_steps=False):
     -----------------------------------------------------------------------------------------------
     A list containing a parsed mathematical expression
     '''
+    printif(input, show_steps)
     # Use to store regular expression string
     parsed_expression = ''
     for char in input:
+        printif(f"Currently working on {char}", show_steps)
         # If the char is a number add it to the string normally. The operators will place the
         # the spaces properly
         if contains_operand(char):
             parsed_expression=parsed_expression+char
-            break
+            continue
         # If a ( is encountered first while string is empty, don't add a space to the left
         elif contains_operator(char):
             parsed_expression=parsed_expression+" "+char+" "
-            break
-    
+            continue
+        printif(parsed_expression, show_steps)
+
     # Get rid of leading/trailing white spaces to avoid improper separations with .split()
     parsed_expression = parsed_expression.strip()
     
