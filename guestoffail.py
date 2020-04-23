@@ -65,6 +65,11 @@ async def clear(ctx, amount=2):
     await ctx.channel.purge(limit=1)
 
 
+@bot.command(name='suggest', help='Submit a suggestion/ support ticket')
+async def suggest(ctx):
+    await ctx.send('Suggestion form: https://forms.gle/aAWDtthnARBi69as8')
+
+
 @bot.command(name='math', help="Solves a mathematical equation")
 async def solve_expression(ctx, message, debug=False):
     # Parse the expression into a list that can be translated into postfix
@@ -81,5 +86,25 @@ async def solve_expression(ctx, message, debug=False):
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
+
+
+@bot.command(name='load', help='loads cogs after removal')
+async def load(ctx, extension):
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(str(extension) + ' loaded!')
+
+
+@bot.command(name='unload', help='unloads cog from bot')
+async def unload(ctx, extension):
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(str(extension) + ' unloaded!')
+
+
+@bot.command(name='refresh', help='refresh a cog that\'s misbehaving')
+async def refresh(ctx, extension):
+    bot.unload_extension(f'cogs.{extension}')
+    time.sleep(1)
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(str(extension) + ' reloaded!')
 
 bot.run(TOKEN)
