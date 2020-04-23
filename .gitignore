@@ -2,3 +2,5 @@
 /bot.py
 /client.py
 /__pycache__
+env
+.vscode/settings.json
