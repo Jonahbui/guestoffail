@@ -1,5 +1,5 @@
-#--------------------------------------------------------------------------------------------------
-# Author: Jonah Bui
+# --------------------------------------------------------------------------------------------------
+# Author: Jonah Bui & Chris Nguyen
 # Date: 4/17/2020
 # Purpose: a custom discord bot to fulfill the needs of my server
 # Current implementations:
@@ -21,21 +21,25 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 # Initialize bot
-from discord.ext import commands
-bot = commands.Bot(command_prefix='=')
+command_prefix = '='
+bot = commands.Bot(command_prefix=str(command_prefix))
 
 # Provide message to signal that discord bot has successfully connected to the server
 @bot.event
 async def on_ready():
+    await bot.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game('Prefix: ' + str(command_prefix)))
     print(f'{bot.user.name} has connected to Discord.')
+
 
 @bot.event
 async def on_member_join(ctx, member):
     await ctx.send(f'{member} has joined on the Great Journey...')
 
+
 @bot.event
 async def on_member_remove(ctx, member):
     await ctx.send(f'{member} has abandoned the Great Journey...')
+
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -44,9 +48,19 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Missing arguments, please try again')
 
+
 @bot.command(name='ping', help="Check the ping to the bot")
 async def ping(ctx):
     await ctx.send(f'Current ping:  {round(bot.latency * 1000)}ms')
+
+
+@bot.command(name='clear', help='Clears messages in a chat channel; Default = 1')
+async def clear(ctx, amount=2):
+    # delects message that requested command and 1 addition message if using default of 2
+    await ctx.channel.purge(limit=amount)
+    await ctx.send('Cleaning message(s)...')
+    time.sleep(1)
+    await ctx.channel.purge(limit=1)
 
 
 @bot.command(name='math', help="Solves a mathematical equation")
@@ -61,5 +75,9 @@ async def solve_expression(ctx, message, debug=False):
     # Relay the value back to the user
     await ctx.send(f"{message} = {value}")
 
+# Loads cogs in this folder only
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
 bot.run(TOKEN)
