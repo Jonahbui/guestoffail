@@ -11,14 +11,16 @@
 import os
 import time
 from dotenv import load_dotenv
-from math_expression import infix_to_postfix, calculate, parse_expression
 import discord
 from discord.ext import commands, tasks
+
+from math_expression import infix_to_postfix, calculate, parse_expression
 
 # Load the .env file to obtain the token and name of guild
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
+
 
 # Initialize bot
 command_prefix = '='
