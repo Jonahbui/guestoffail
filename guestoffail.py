@@ -9,6 +9,7 @@
 # Reference code: Brad Solomon
 
 import os
+import json
 import time
 from dotenv import load_dotenv
 import discord
@@ -81,6 +82,27 @@ async def solve_expression(ctx, message, debug=False):
 
     # Relay the value back to the user
     await ctx.send(f"{message} = {value}")
+
+
+@bot.command(name='ani', help="Show off your AniList stats!")
+async def ani(ctx):
+    requested_user = (str(ctx.message.author))[-4:]
+
+    f = open("users.json")
+    data = json.load(f)
+    f.close()
+
+    if(requested_user in data):
+        await ctx.send('You\'re on the list! Pulling AniiList information...')
+    else:
+        await ctx.send('You\'re not on the list, what is your AniiList username?')
+        msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        await ctx.send('You said: ' + str(msg.content))
+
+    # Gets the string to add to users.json
+    # msg.conent
+    # gets Value from key
+    # user = (data["PortableRogue#4458"])
 
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
