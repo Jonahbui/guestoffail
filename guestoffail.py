@@ -8,6 +8,12 @@
 # Changelogs:
 # Reference code: Brad Solomon
 
+# --------------------------------------------------------------------------------------------------
+# Note: Chris
+# April 26, 2020
+# Event cogs have been moved to cogs/Events.py and converted to cog listener functions
+# Whenever changing the prefix -which I don't know if you will ever- please make sure to update in =help function and bot's game message in Events.py
+
 import os
 import json
 import time
@@ -27,30 +33,6 @@ GUILD = os.getenv('DISCORD_GUILD')
 command_prefix = '='
 bot = commands.Bot(command_prefix=str(command_prefix))
 bot.remove_command('help')
-
-# Provide message to signal that discord bot has successfully connected to the server
-@bot.event
-async def on_ready():
-    await bot.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game('Prefix: ' + str(command_prefix)))
-    print(f'{bot.user.name} has connected to Discord.')
-
-
-@bot.event
-async def on_member_join(ctx, member):
-    await print(f'{member} has joined on the Great Journey...')
-
-
-@bot.event
-async def on_member_remove(ctx, member):
-    await print(f'{member} has abandoned the Great Journey...')
-
-
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.send('Command not found, please check =help for list of commands')
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Missing arguments, please try again')
 
 
 @bot.command(name='math', help="Solves a mathematical equation")
@@ -85,27 +67,7 @@ async def ani(ctx):
     # msg.conent
     # gets Value from key
     # user = (data["PortableRogue#4458"])
-
-
-@bot.command(name='load', help='loads cogs after removal')
-async def load(ctx, extension):
-    bot.load_extension(f'cogs.{extension}')
-    await ctx.send(str(extension) + ' loaded!')
-
-
-@bot.command(name='unload', help='unloads cog from bot')
-async def unload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-    await ctx.send(str(extension) + ' unloaded!')
-
-
-@bot.command(name='refresh', help='refresh a cog that\'s misbehaving')
-async def refresh(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-    time.sleep(1)
-    bot.load_extension(f'cogs.{extension}')
-    await ctx.send(str(extension) + ' reloaded!')
-
+    
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):

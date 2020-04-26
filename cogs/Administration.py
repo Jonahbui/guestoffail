@@ -25,6 +25,23 @@ class administration(commands.Cog):
     async def contact(self, ctx):
         await ctx.send('Suggestion form: https://forms.gle/aAWDtthnARBi69as8')
 
+    @commands.command(name='refresh', help="refresh a cog that\'s missbehaving")
+    async def refresh(self, ctx, extension):
+        self.bot.unload_extension(f'cogs.{extension}')
+        time.sleep(1)
+        self.bot.load_extension(f'cogs.{extension}')
+        await ctx.send(str(extension) + ' reloaded!')
+
+    @commands.command(name='unload', help='unload cog from bot')
+    async def unload(self, ctx, extension):
+        self.bot.unload_extension(f'cogs.{extension}')
+        await ctx.send(str(extension) + ' unloaded!')    
+
+    @commands.command(name='load', help='load cog after removal')
+    async def load(self, ctx, extension):
+        self.bot.load_extension(f'cogs.{extension}')
+        await ctx.send(str(extension) + ' loaded!')
+
     @commands.command(pass_context=True)
     async def help(self, ctx):
         '''Custom help command'''
@@ -46,7 +63,7 @@ class administration(commands.Cog):
     # Bot information stat tracker
     @commands.command(pass_context=True)
     async def info(self, ctx):
-        """Shows server info"""
+        '''Shows server info'''
 
         server = ctx.message.guild
         roles = str(len(server.roles))
@@ -55,7 +72,7 @@ class administration(commands.Cog):
 
         embeded = discord.Embed(title=server.name, description='Server Info', color=discord.Color.green())
         embeded.set_thumbnail(url=server.icon_url)
-        embeded.add_field(name="Created on:", value=server.created_at.strftime('%d %B %Y at %H:%M UTC+3'), inline=False)
+        embeded.add_field(name="Created on:", value=server.created_at.strftime('%d %B %Y at %H:%M UTC-6') + '| Rip LNG-1', inline=False)
         embeded.add_field(name="Server ID:", value=server.id, inline=False)
         embeded.add_field(name="Users on server:", value=server.member_count, inline=True)
         embeded.add_field(name="Server owner:", value=server.owner, inline=True)
@@ -65,7 +82,7 @@ class administration(commands.Cog):
         embeded.add_field(name="Emoji Count:", value=emojis, inline=True)
         embeded.add_field(name="Channel Count:", value=channels, inline=True)
 
-        embeded.add_field(name="Bot created by:", value="Chris Nguyen & Jonah Bui", inline=False)
+        embeded.add_field(name="Bot created and maintained by:", value="@Rat Chef#3342, @PortableRogue#4458", inline=False)
 
         await ctx.send(embed=embeded) 
 
