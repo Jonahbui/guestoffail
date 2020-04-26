@@ -26,6 +26,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 # Initialize bot
 command_prefix = '='
 bot = commands.Bot(command_prefix=str(command_prefix))
+bot.remove_command('help')
 
 # Provide message to signal that discord bot has successfully connected to the server
 @bot.event
@@ -36,12 +37,12 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(ctx, member):
-    await ctx.send(f'{member} has joined on the Great Journey...')
+    await print(f'{member} has joined on the Great Journey...')
 
 
 @bot.event
 async def on_member_remove(ctx, member):
-    await ctx.send(f'{member} has abandoned the Great Journey...')
+    await print(f'{member} has abandoned the Great Journey...')
 
 
 @bot.event
@@ -50,25 +51,6 @@ async def on_command_error(ctx, error):
         await ctx.send('Command not found, please check =help for list of commands')
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Missing arguments, please try again')
-
-
-@bot.command(name='ping', help="Check the ping to the bot")
-async def ping(ctx):
-    await ctx.send(f'Current ping:  {round(bot.latency * 1000)}ms')
-
-
-@bot.command(name='clear', help='Clears messages in a chat channel; Default = 1')
-async def clear(ctx, amount=2):
-    # delects message that requested command and 1 addition message if using default of 2
-    await ctx.channel.purge(limit=amount)
-    await ctx.send('Cleaning message(s)...')
-    time.sleep(1)
-    await ctx.channel.purge(limit=1)
-
-
-@bot.command(name='suggest', help='Submit a suggestion/ support ticket')
-async def suggest(ctx):
-    await ctx.send('Suggestion form: https://forms.gle/aAWDtthnARBi69as8')
 
 
 @bot.command(name='math', help="Solves a mathematical equation")
@@ -104,11 +86,6 @@ async def ani(ctx):
     # gets Value from key
     # user = (data["PortableRogue#4458"])
 
-# Loads cogs in this folder only
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        bot.load_extension(f'cogs.{filename[:-3]}')
-
 
 @bot.command(name='load', help='loads cogs after removal')
 async def load(ctx, extension):
@@ -128,5 +105,10 @@ async def refresh(ctx, extension):
     time.sleep(1)
     bot.load_extension(f'cogs.{extension}')
     await ctx.send(str(extension) + ' reloaded!')
+
+# Loads cogs in this folder only
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
 bot.run(TOKEN)
