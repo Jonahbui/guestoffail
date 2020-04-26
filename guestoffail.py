@@ -1,3 +1,5 @@
+# Written with discord.py rewrite version 1.2.5
+
 # --------------------------------------------------------------------------------------------------
 # Author: Jonah Bui & Chris Nguyen
 # Date: 4/17/2020
@@ -7,7 +9,6 @@
 # To-do List:
 # Changelogs:
 # Reference code: Brad Solomon
-
 # --------------------------------------------------------------------------------------------------
 # Note: Chris
 # April 26, 2020
@@ -17,6 +18,8 @@
 import os
 import json
 import time
+import requests
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
@@ -50,6 +53,19 @@ async def solve_expression(ctx, message, debug=False):
 
 @bot.command(name='ani', help="Show off your AniList stats!")
 async def ani(ctx):
+    def web_search(username):
+        response = requests.get('https://anilist.co/user/portablerogue/stats/anime/overview')
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        #total anime
+        #episodes watched
+        #days watched
+        #days planned
+        #mean score
+        #standard deviation
+
+        return
+
     requested_user = (str(ctx.message.author))[-4:]
 
     f = open("users.json")
@@ -58,16 +74,21 @@ async def ani(ctx):
 
     if(requested_user in data):
         await ctx.send('You\'re on the list! Pulling AniiList information...')
+        #info = web_search(requested_user)
     else:
         await ctx.send('You\'re not on the list, what is your AniiList username?')
         msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
-        await ctx.send('You said: ' + str(msg.content))
 
-    # Gets the string to add to users.json
-    # msg.conent
-    # gets Value from key
-    # user = (data["PortableRogue#4458"])
-    
+        new_member = {str(requested_user): str(msg.content)}
+        data.update(new_member)
+
+        json_object = json.dumps(data, indent=4)
+        with open("users.json", "w") as f:
+            f.write(json_object)
+        f.close()
+        await ctx.send('Added!')
+       # info = web_search(requested_user)
+
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
