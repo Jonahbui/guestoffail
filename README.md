@@ -18,3 +18,7 @@ __WIP__
 __Intended Updates__
 * Administration roles/ commands
 * Games?
+
+__Packages/ Tech used__
+* BeautifulSoup -Web scraper for Anilist
+
