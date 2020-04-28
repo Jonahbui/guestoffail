@@ -2,6 +2,8 @@
 
 "A bot that was created for the LNG server" -JonahBui
 
+Readme updated at: 4/28/20
+
 __Contributors__
 * [Jonahbui](https://github.com/Jonahbui)
 * [Chris-Ngu](https://github.com/Chris-Ngu)
@@ -20,5 +22,5 @@ __Intended Updates__
 * Games?
 
 __Packages/ Tech used__
-* BeautifulSoup -Web scraper for Anilist
+* Selenium (Pending)
 
