@@ -19,7 +19,6 @@ import os
 import json
 import time
 import requests
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
@@ -51,21 +50,12 @@ async def solve_expression(ctx, message, debug=False):
     await ctx.send(f"{message} = {value}")
 
 
+#   NOTICE
+#   Scrapy, BeautifulSoup will not work; don't waste your time
+#   Need to work with Selenium as the data is embeded in Dyanmic JS
+#   Headless browser ref: https://medium.com/@pyzzled/running-headless-chrome-with-selenium-in-python-3f42d1f5ff1d
 @bot.command(name='ani', help="Show off your AniList stats!")
 async def ani(ctx):
-    def web_search(username):
-        response = requests.get('https://anilist.co/user/portablerogue/stats/anime/overview')
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        #total anime
-        #episodes watched
-        #days watched
-        #days planned
-        #mean score
-        #standard deviation
-
-        return
-
     requested_user = (str(ctx.message.author))[-4:]
 
     f = open("users.json")
@@ -73,8 +63,7 @@ async def ani(ctx):
     f.close()
 
     if(requested_user in data):
-        await ctx.send('You\'re on the list! Pulling AniiList information...')
-        #info = web_search(requested_user)
+        await ctx.send('You\'re on the list! Currently, this is still WIP so I can\'t show you anything just yet')
     else:
         await ctx.send('You\'re not on the list, what is your AniiList username?')
         msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
@@ -87,7 +76,7 @@ async def ani(ctx):
             f.write(json_object)
         f.close()
         await ctx.send('Added!')
-       # info = web_search(requested_user)
+        await ctx.send('You\'re on the list! Currently, this is still WIP so I can\'t show you anything just yet')
 
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
