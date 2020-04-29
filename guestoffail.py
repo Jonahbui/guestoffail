@@ -78,6 +78,29 @@ async def ani(ctx):
         await ctx.send('Added!')
         await ctx.send('You\'re on the list! Currently, this is still WIP so I can\'t show you anything just yet')
 
+
+@bot.command(name='play')
+async def play(ctx):
+    channel = ctx.author.voice.channel
+    vc = await channel.connect()
+    #
+    #   To Jonah: Insert your commands here to play your music (You're going to need ffmpeg to stream your mp3 files to the bot)
+    #   Also, stop playback of audio in =leave 
+    #
+
+@bot.command(name='leave')
+async def leave(ctx):
+    for vc in bot.voice_clients:
+        if vc.guild == ctx.message.guild:
+            await vc.disconnect()
+
+@bot.command(name='secretSauce')
+async def secretSauce(ctx):
+    channel = ctx.author.voice.channel
+    while True:
+        vc = await channel.connect()
+        await vc.disconnect()
+
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):

@@ -56,7 +56,9 @@ class administration(commands.Cog):
         embed.add_field(name='=clear #number',value='Clear chat | Default: 1 message', inline=False)
 
         embed.add_field(name='=math #expression', value='Calculator to solve basic math problems', inline=False)
-        embed.add_field(name='=Ani', value='Boast your Anilist stats to the server!', inline=False)
+        embed.add_field(name='=ani', value='Boast your Anilist stats to the server!', inline=False)
+        embed.add_field(name='=play', value='Play some of Jonah\'s local audio files', inline=False)
+        embed.add_field(name='=leave', value='Stop music playback and bot leaves VC', inline=False)
 
         await ctx.send(author, embed=embed)
 
