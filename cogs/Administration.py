@@ -68,6 +68,8 @@ class administration(commands.Cog):
         embed.add_field(name='=play', value='Play some of Jonah\'s local audio files', inline=False)
         embed.add_field(name='=leave', value='Stop music playback and bot leaves VC', inline=False)
 
+        embed.add_field(name='=spyfall', value='Start a game instance of Spyfall', inline=False)
+
         await ctx.send(author, embed=embed)
 
     # Bot information stat tracker

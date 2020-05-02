@@ -15,5 +15,7 @@ class game_template(commands.Cog):
         msg = await ctx.send(embed=embed)
         await msg.add_reaction("\U0001F44D")
 
+        
+
 def setup(bot):
     bot.add_cog(game_template(bot))
