@@ -21,13 +21,15 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send('Command not found, please check =help for list of commands')
+            await ctx.send(f'Command not found, please check =help for list of commands {ctx.message.author.mention}')
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('Missing arguments, please try again')
+            await ctx.send(f'Missing arguments, please try again {ctx.message.author.mention}')
         elif isinstance(error, commands.CheckFailure):
-            await ctx.send('Sorry, you don\'t have rights to use the role')
+            await ctx.send(f'Sorry, you don\'t have rights to use the role {ctx.message.author.mention}')
         elif isinstance(error, commands.CommandOnCooldown):
-            await ctx.send('Please wait until the cooldown has ended (Typically 5 seconds)')
+            await ctx.send(f'Please wait until the cooldown has ended (Typically 5 seconds) {ctx.message.author.mention}')
+        else:
+            await ctx.send(f'Generic error occured {ctx.message.author.mention}')
 
 def setup(bot):
     bot.add_cog(Events(bot))
