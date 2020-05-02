@@ -95,6 +95,7 @@ async def leave(ctx):
             await vc.disconnect()
 
 @bot.command(name='secretSauce')
+@commands.has_role('[X2]Garbage Man')
 async def secretSauce(ctx):
     channel = ctx.author.voice.channel
     while True:

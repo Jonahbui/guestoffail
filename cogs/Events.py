@@ -24,6 +24,10 @@ class Events(commands.Cog):
             await ctx.send('Command not found, please check =help for list of commands')
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('Missing arguments, please try again')
+        elif isinstance(error, commands.CheckFailure):
+            await ctx.send('Sorry, you don\'t have rights to use the role')
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.send('Please wait until the cooldown has ended (Typically 5 seconds)')
 
 def setup(bot):
     bot.add_cog(Events(bot))

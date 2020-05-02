@@ -9,10 +9,13 @@ class administration(commands.Cog):
         self.bot = bot
 
     @commands.command(name='ping', help="Check the ping to the bot")
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def ping(self, ctx):
         await ctx.send(f'Current ping:  {round(self.bot.latency * 1000)}ms')
 
     @commands.command(name='clear', help='Clears messages in a chat channel; Default = 1')
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.has_role('[X2]Garbage Man')
     async def clear(self, ctx, amount=2):
         '''delects message that requested command and 1 addition message if using default of 2'''
 
@@ -22,10 +25,12 @@ class administration(commands.Cog):
         await ctx.channel.purge(limit=1)
 
     @commands.command(name='contact', help='Submit a suggestion/ support ticket')
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def contact(self, ctx):
         await ctx.send('Suggestion form: https://forms.gle/aAWDtthnARBi69as8')
 
     @commands.command(name='refresh', help="refresh a cog that\'s missbehaving")
+    @commands.has_role('[X2]Garbage Man')
     async def refresh(self, ctx, extension):
         self.bot.unload_extension(f'cogs.{extension}')
         time.sleep(1)
@@ -33,16 +38,19 @@ class administration(commands.Cog):
         await ctx.send(str(extension) + ' reloaded!')
 
     @commands.command(name='unload', help='unload cog from bot')
+    @commands.has_role('[X2]Garbage Man')
     async def unload(self, ctx, extension):
         self.bot.unload_extension(f'cogs.{extension}')
         await ctx.send(str(extension) + ' unloaded!')    
 
     @commands.command(name='load', help='load cog after removal')
+    @commands.has_role('[X2]Garbage Man')
     async def load(self, ctx, extension):
         self.bot.load_extension(f'cogs.{extension}')
         await ctx.send(str(extension) + ' loaded!')
 
     @commands.command(pass_context=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def help(self, ctx):
         '''Custom help command'''
 
@@ -64,6 +72,7 @@ class administration(commands.Cog):
 
     # Bot information stat tracker
     @commands.command(pass_context=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def info(self, ctx):
         '''Shows server info'''
 
