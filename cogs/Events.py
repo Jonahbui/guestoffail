@@ -7,7 +7,8 @@ class Events(commands.Cog):
     
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game('Prefix: ='))
+        activity = discord.Streaming(name='Prefix: =', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+        await self.bot.change_presence(status=discord.Status.do_not_disturb, activity=activity)
         print(f'{self.bot.user.name} has connected to Discord.')
 
     @commands.Cog.listener()
