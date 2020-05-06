@@ -8,7 +8,7 @@
 #  > A calculator for regular expressions
 # To-do List:
 # Changelogs:
-# Reference code: Brad Solomon
+# Reference code: Brad Solomon (Who's brad?)
 # --------------------------------------------------------------------------------------------------
 # Note: Chris
 # April 26, 2020

@@ -29,6 +29,18 @@ class administration(commands.Cog):
     async def contact(self, ctx):
         await ctx.send('Suggestion form: https://forms.gle/aAWDtthnARBi69as8')
 
+    #Will send a notification to the SERVER OWNER in chat and in DMs
+    @commands.command(name='invite', help= "Create an invite link for the server")
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def invite(self, ctx):
+        invite_link = await ctx.channel.create_invite(max_age = 300)
+        owner = ctx.message.guild.owner
+        server = ctx.message.guild.name
+
+        await ctx.send(f"An invite link has been created, expires in 5 minutes {owner.mention}")
+        await owner.send(f'Someone created an invite link in {server}')
+        await ctx.send(invite_link)
+
     @commands.command(name='refresh', help="refresh a cog that\'s missbehaving")
     @commands.has_role('[X2]Garbage Man')
     async def refresh(self, ctx, extension):
@@ -62,6 +74,7 @@ class administration(commands.Cog):
         embed.add_field(name='=contact', value='Submit suggestions/ support tickets here', inline=False)
         embed.add_field(name='=ping', value='Check your ping to the bot', inline=False)
         embed.add_field(name='=clear #number',value='Clear chat | Default: 1 message', inline=False)
+        embed.add_field(name='=invite', value = 'Create an invite link to the server', inline=False)
 
         embed.add_field(name='=math #expression', value='Calculator to solve basic math problems', inline=False)
         embed.add_field(name='=ani', value='Boast your Anilist stats to the server!', inline=False)

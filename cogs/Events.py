@@ -27,7 +27,9 @@ class Events(commands.Cog):
         elif isinstance(error, commands.CheckFailure):
             await ctx.send(f'Sorry, you don\'t have rights to use the role {ctx.message.author.mention}')
         elif isinstance(error, commands.CommandOnCooldown):
-            await ctx.send(f'Please wait until the cooldown has ended (Typically 5 seconds) {ctx.message.author.mention}')
+            await ctx.send(f'Please wait 5 seconds for the cooldown (1 minute for invite) {ctx.message.author.mention}')
+        elif isinstance(error, commands.BotMissingPermissions):
+            await ctx.send(f'Bot doesn\'t have permission to use this command {ctx.message.author.mention}')
         else:
             await ctx.send(f'Generic error occured {ctx.message.author.mention}')
 
