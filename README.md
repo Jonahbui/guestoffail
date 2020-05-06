@@ -2,7 +2,7 @@
 
 "A bot that was created for the LNG server" -JonahBui
 
-Readme updated at: 5/2/20
+Readme updated at: 5/5/20
 
 __Contributors__
 * [Jonahbui](https://github.com/Jonahbui)
@@ -21,8 +21,11 @@ __WIP__
 
 __Intended Updates__
 * More mini-games to come!
+* Youtube + local MP3 playback
 
 __Packages/ Tech used__
 * Selenium (Pending)
 * Asyncio
+* Youtube-dl
+
 
