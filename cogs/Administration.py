@@ -68,9 +68,15 @@ class administration(commands.Cog):
         owner = ctx.message.guild.owner
         server = ctx.message.guild.name
 
-        await ctx.send(f'{member.mention} was kicked from the server, see you later! {owner.mention}')
+        await ctx.send(f'{member.mention} was kicked from the server, see you later! @here {owner.mention}')
         await owner.send(f'{member} was kicked from {server}')
         await member.kick(reason=reason)
+
+    @commands.command(name='mute', help='Mute a user in a voice channel')
+    @commands.has_role('[X2]Garbage Man')
+    async def mute(self, ctx, member: discord.Member, *, reason=None):
+        await member.mute(reason=reason)
+        await ctx.send(f'{member} has been muted @here')
 
     @commands.command(name='load', help='load cog after removal')
     @commands.has_role('[X2]Garbage Man')
@@ -90,9 +96,10 @@ class administration(commands.Cog):
         embed.add_field(name='=info', value="Show server statistics", inline=False)
         embed.add_field(name='=contact', value='Submit suggestions/ support tickets here', inline=False)
         embed.add_field(name='=ping', value='Check your ping to the bot', inline=False)
-        embed.add_field(name='=clear #number',value='Clear chat | Default: 1 message', inline=False)
         embed.add_field(name='=invite', value = 'Create an invite link to the server (Cooldown: 60 mins)', inline=False)
+        embed.add_field(name='=clear #number',value='Clear chat | Default: 1 message (Role restricted)', inline=False)
         embed.add_field(name='=kick', value='Kick a user (Role restricted)', inline=False)
+        embed.add_field(name='=mute', value='Mute a user (Role restricted)', inline=False)
 
         embed.add_field(name='=math #expression', value='Calculator to solve basic math problems', inline=False)
         embed.add_field(name='=ani', value='Boast your Anilist stats to the server!', inline=False)
