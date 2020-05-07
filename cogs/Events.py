@@ -31,6 +31,10 @@ class Events(commands.Cog):
             await ctx.send(f'Please wait 5 seconds for the cooldown (1 minute for invite) {ctx.message.author.mention}')
         elif isinstance(error, commands.BotMissingPermissions):
             await ctx.send(f'Bot doesn\'t have permission to use this command {ctx.message.author.mention}')
+        elif isinstance(error, commands.BotMissingAnyRole):
+            await ctx.send(f'Bot doesn\'t have the right roles to use this command {ctx.message.author.mention}')
+        elif isinstance(error, commands.BotMissingRole):
+            await ctx.send(f'Bot doesn\'t have the right roles to use this command {ctx.message.author.mention}')
         else:
             await ctx.send(f'Generic error occured {ctx.message.author.mention}')
 
