@@ -15,15 +15,17 @@
 # Event cogs have been moved to cogs/Events.py and converted to cog listener functions
 # Whenever changing the prefix -which I don't know if you will ever- please make sure to update in =help function and bot's game message in Events.py
 
-import os
 import json
+import os
 import time
-import requests
-from dotenv import load_dotenv
-import discord
-from discord.ext import commands, tasks
 
-from math_expression import infix_to_postfix, calculate, parse_expression
+import discord
+import requests
+import youtube_dl
+from discord.ext import commands, tasks
+from dotenv import load_dotenv
+
+from math_expression import calculate, infix_to_postfix, parse_expression
 
 # Load the .env file to obtain the token and name of guild
 load_dotenv()
@@ -78,11 +80,43 @@ async def ani(ctx):
         await ctx.send('Added!')
         await ctx.send('You\'re on the list! Currently, this is still WIP so I can\'t show you anything just yet')
 
-
+#ref: https://stackoverflow.com/questions/56031159/discord-py-rewrite-what-is-the-source-for-youtubedl-to-play-music
 @bot.command(name='play')
-async def play(ctx):
+async def play(ctx, url: str):
     channel = ctx.author.voice.channel
     vc = await channel.connect()
+
+    song_there = os.path.isfile("song.mp3")
+    try:
+        if song_there:
+            os.remove("song.mp3")
+    except PermissionError:
+        await ctx.send("Wait for the current playing music end or use the 'stop' command")
+        return
+
+    await ctx.send("Getting everything ready, one second")
+    print(f'{ctx.message.author} has requested to download a song from the bot')
+
+    voice= discord.utils.get(bot.voice_clients, guild=ctx.guild)
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+    for file in os.listdir("./"):
+        if file.endswith(".mp3"):
+            os.rename(file, 'song.mp3')
+    voice.play(discord.FFmpegAudio('song.mp3'))
+    voice.volume = 100
+    voice.is_playing()
+
+    
     #
     #   To Jonah: Insert your commands here to play your music (You're going to need ffmpeg to stream your mp3 files to the bot)
     #   Also, stop playback of audio in =leave 
@@ -93,6 +127,8 @@ async def leave(ctx):
     for vc in bot.voice_clients:
         if vc.guild == ctx.message.guild:
             await vc.disconnect()
+            return
+    await ctx.send("I am currently not in a voice channel")
 
 @bot.command(name='secretSauce')
 @commands.has_role('[X2]Garbage Man')
