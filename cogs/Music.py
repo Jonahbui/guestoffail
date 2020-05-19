@@ -66,9 +66,8 @@ class Music(commands.Cog):
         self.bot = bot
         self.playlist = playlist
 
-    @commands.command(name='test')
+    @commands.command(name='playlist')
     async def inside_template(self, ctx):
-        await ctx.send("inside_template")
         await print_playlist(self.playlist)
 
 # Every cog just have a setup function
