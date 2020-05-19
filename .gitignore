@@ -1,6 +1,10 @@
+# Files to exclude
 /.env
 /bot.py
 /client.py
+/test.py
+
+# Pregenerated content to ignore
 /__pycache__
 env
 .vscode/settings.json
