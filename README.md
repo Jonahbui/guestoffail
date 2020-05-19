@@ -1,6 +1,6 @@
 # guestoffail
 
-"A bot that was created for the LNG server" -JonahBui
+"A bot that was created for the LNG server" -Jonah Bui
 
 Readme updated at: 5/5/20
 
@@ -18,6 +18,7 @@ __Working Components__
 __WIP__
 * Anilist stat tracker
 * Spyfall mini-game
+* Local music bot
 
 __Intended Updates__
 * More mini-games to come!
@@ -27,5 +28,7 @@ __Packages/ Tech used__
 * Selenium (Pending)
 * Asyncio
 * Youtube-dl
+* Mutagen
+* Eyed3
 
 
