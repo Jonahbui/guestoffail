@@ -142,6 +142,11 @@ async def secretSauce(ctx):
 async def rename(ctx, channel:discord.VoiceChannel, *, new_name):
     await channel.edit(name=new_name)
 
+@bot.command(name='remove')
+async def remove(ctx, member: discord.Member):
+    role = discord.utils.get(ctx.message.guild.roles, name="Brothers Cleaning")
+    await member.remove_roles(role)
+
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
