@@ -138,6 +138,10 @@ async def secretSauce(ctx):
         vc = await channel.connect()
         await vc.disconnect()
 
+@bot.command(name='rename')
+async def rename(ctx, channel:discord.VoiceChannel, *, new_name):
+    await channel.edit(name=new_name)
+
 # Loads cogs in this folder only
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
